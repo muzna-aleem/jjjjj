@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="db9ca28c8b43524a20ac75a79b015fd9b4ModelStoreContainer">
+    <EntitySet Name="Request" EntityType="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store.Request" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Student" EntityType="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store.Student" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Teacher" EntityType="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store.Teacher" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Request_Student" Association="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store.FK_Request_Student">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Teacher" Association="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store.FK_Request_Teacher">
+      <End Role="Teacher" EntitySet="Teacher" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Request">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="SenderId" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="ReceiverId" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="SeenStatus" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="RollNumber" />
+    </Key>
+    <Property Name="RollNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Picture" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Teacher">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Post" Type="nvarchar" MaxLength="50" />
+    <Property Name="Education" Type="nvarchar(max)" />
+    <Property Name="Available" Type="bit" />
+    <Property Name="Location" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="Picture" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Request_Student">
+    <End Role="Student" Type="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store.Student" Multiplicity="1" />
+    <End Role="Request" Type="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="RollNumber" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="SenderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Teacher">
+    <End Role="Teacher" Type="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store.Teacher" Multiplicity="1" />
+    <End Role="Request" Type="db9ca28c8b43524a20ac75a79b015fd9b4Model.Store.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="ReceiverId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

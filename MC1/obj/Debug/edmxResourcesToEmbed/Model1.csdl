@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db9ca28c8b43524a20ac75a79b015fd9b4Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="db9ca28c8b43524a20ac75a79b015fd9b4Entities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Requests" EntityType="db9ca28c8b43524a20ac75a79b015fd9b4Model.Request" />
+    <EntitySet Name="Students" EntityType="db9ca28c8b43524a20ac75a79b015fd9b4Model.Student" />
+    <EntitySet Name="Teachers" EntityType="db9ca28c8b43524a20ac75a79b015fd9b4Model.Teacher" />
+    <AssociationSet Name="FK_Request_Student" Association="db9ca28c8b43524a20ac75a79b015fd9b4Model.FK_Request_Student">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="Request" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Teacher" Association="db9ca28c8b43524a20ac75a79b015fd9b4Model.FK_Request_Teacher">
+      <End Role="Teacher" EntitySet="Teachers" />
+      <End Role="Request" EntitySet="Requests" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Request">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="SenderId" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="ReceiverId" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="SeenStatus" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Student" Relationship="db9ca28c8b43524a20ac75a79b015fd9b4Model.FK_Request_Student" FromRole="Request" ToRole="Student" />
+    <NavigationProperty Name="Teacher" Relationship="db9ca28c8b43524a20ac75a79b015fd9b4Model.FK_Request_Teacher" FromRole="Request" ToRole="Teacher" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="RollNumber" />
+    </Key>
+    <Property Name="RollNumber" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="Requests" Relationship="db9ca28c8b43524a20ac75a79b015fd9b4Model.FK_Request_Student" FromRole="Student" ToRole="Request" />
+  </EntityType>
+  <EntityType Name="Teacher">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Post" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Education" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Available" Type="Boolean" />
+    <Property Name="Location" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="Requests" Relationship="db9ca28c8b43524a20ac75a79b015fd9b4Model.FK_Request_Teacher" FromRole="Teacher" ToRole="Request" />
+  </EntityType>
+  <Association Name="FK_Request_Student">
+    <End Role="Student" Type="db9ca28c8b43524a20ac75a79b015fd9b4Model.Student" Multiplicity="1" />
+    <End Role="Request" Type="db9ca28c8b43524a20ac75a79b015fd9b4Model.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="RollNumber" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="SenderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Teacher">
+    <End Role="Teacher" Type="db9ca28c8b43524a20ac75a79b015fd9b4Model.Teacher" Multiplicity="1" />
+    <End Role="Request" Type="db9ca28c8b43524a20ac75a79b015fd9b4Model.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="ReceiverId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
